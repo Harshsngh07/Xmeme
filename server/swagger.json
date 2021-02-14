@@ -1,0 +1,136 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Xmeme",
+    "description": "An app to post memes",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+
+  "host": "localhost:8081",
+  "basePath": "/memes",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/memes": {
+      "get": {
+        "tags": ["memes"],
+        "description": "Fetches all the memes",
+        "schema": {
+          "$ref": "#/definitions/Meme"
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Fetched all the memes"
+          }
+        }
+      },
+      "post": {
+        "tags": ["memes"],
+        "description": "Create a Meme",
+        "parameters": [
+          {
+            "name": "user",
+            "caption": "body",
+            "imageUrl": "meme.jpg",
+            "description": "Meme that we want to post"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "New Meme is created",
+            "schema": {
+              "$ref": "#/definitions/Meme"
+            }
+          }
+        }
+      }
+    },
+    "/memes/{id}": {
+      "parameters": [
+        {
+          "name": "memeId",
+          "required": true,
+          "description": "Id of the meme that we want to update",
+          "type": "string"
+        }
+      ],
+      "patch": {
+        "tags": ["memes"],
+        "summary": "Updates meme of that Id",
+        "responses": {
+          "201": {
+            "description": "meme update",
+            "schema": {
+              "$ref": "#/definitions/Meme"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["memes"],
+        "summary": "Delete meme of that Id",
+        "responses": {
+          "200": {
+            "description": "Successfully deleted",
+            "schema": {
+              "$ref": "#/definitions/Meme"
+            }
+          }
+        }
+      }
+    },
+    "/memes/{id}/likeMeme": {
+      "parameters": [
+        {
+          "name": "memeId",
+          "required": true,
+          "description": "Id of the meme that we want to update",
+          "type": "string"
+        }
+      ],
+      "patch": {
+        "tags": ["memes"],
+        "summary": "Updates meme of that Id",
+        "responses": {
+          "201": {
+            "description": "meme liked",
+            "schema": {
+              "$ref": "#/definitions/Meme"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defintions": {
+    "meme": {
+      "required": ["name", "_id"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "memes": {
+      "type": "array",
+      "$ref": "#/definitions/Meme"
+    }
+  }
+}
